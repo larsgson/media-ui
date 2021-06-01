@@ -45,9 +45,10 @@ export const getImgOfType = (type) => {
 }
 
 export const getImgOfObj = (ser) => {
-  let retStr = "img/Placeholder.png"
+  let retStr = "img/Placeholder.png";
   if (ser!=null){
     if(ser.image!=null){
+/*
       if((ser.image.origin==="Unsplash")
         &&(ser.image.urls!=null)
         &&(ser.image.urls.raw!=null)){
@@ -59,8 +60,10 @@ export const getImgOfObj = (ser) => {
         &&(ser.image.filename!=null)){
         retStr = ser.image.filename
       }
+*/
+      return ser.image
     } else if (ser.index!=null){
-      retStr = "img/ser" + pad((ser.index) % 41) + ".jpg"
+      retStr = `img/ser${  pad((ser.index) % 41)  }.jpg`;
     }
   }
   return retStr

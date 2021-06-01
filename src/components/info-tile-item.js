@@ -38,6 +38,10 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
   },
   iconButton: {
+    '&:hover': {
+      backgroundColor: '#fff',
+      color: '#3c52b2',
+    }
   },
   actionButton: {
     color: 'white',
@@ -45,8 +49,14 @@ const useStyles = makeStyles(theme => ({
     marginLeft: 20,
   },
   buttonPlay: {
-    margin: 20,
-    zIndex: 100,
+    margin: 0,
+    top: 170,
+    bottom: 'auto',
+    left: 140,
+    right: 'auto',
+    position: 'relative',
+    color: '#3f51b5',
+    backgroundColor: 'lightgrey',
   },
   floatingButtonBack: {
     margin: 0,
@@ -77,30 +87,24 @@ const InfoTileItem = ({item,curEp,expandIcon,onClickClose,onClickEdit,
   const [user] = useStorageState()
   return (
     <div>
+      <Fab
+        color="secondary"
+        className={classes.buttonPlay}
+        onClick={(e) => onClickPlay(e)}
+      >
+        {item.mediaType ? menuList[item.mediaType].icon : <PlayArrow/>}
+      </Fab>
       <ItemImage
         item={item}
         curEp={curEp}
         onClick={(e) => onClickPlay(e)}
         height={230}
-        marginTop={25}
+        marginTop={45}
       />
       <div className={classes.infoTileContent}>
-        <Fab
-          className={classes.floatingButtonBack}
-          onClick={(e) => onClickClose(e)}
-        ><LeftIcon /></Fab>
         <div className={classes.infoTileLeft}>
           <Typography className={classes.areaHeadline} type="headline">{item.title}</Typography>
-          <Typography className={classes.headline} type="headline">{item.description}</Typography>
-          {curEp && <Typography className={classes.epTitle} type="headline">{curEp.title}</Typography>}
-          {curEp && <Typography className={classes.epDescr} type="headline">{curEp.descr}</Typography>}
-          <Fab
-            color="primary"
-            className={classes.buttonPlay}
-            onClick={(e) => onClickPlay(e)}
-          >
-            {item.mediaType ? menuList[item.mediaType].icon : <PlayArrow/>}
-          </Fab>
+          <Typography className={classes.headline} type="headline">{item.introtext}</Typography>
           {(item && item.download) && (<Fab
             onClick={(e) => onClickDownload(e)}
             color="primary"
@@ -117,11 +121,6 @@ const InfoTileItem = ({item,curEp,expandIcon,onClickClose,onClickEdit,
           >
             <EditIcon/>
           </Fab>)}
-          {(item && item.fileList && item.fileList.length>1) && (<IconButton
-            className={classes.actionButton}
-            onClick={(e) => onClickExpand(e)}>
-              {expandIcon}
-          </IconButton>)}
           <div className={classes.filler}/>
         </div>
       </div>

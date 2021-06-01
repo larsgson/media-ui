@@ -55,6 +55,8 @@ console.log(curSerie)
   }
 
   const startPlay = async (inx,curSerie,curEp) => {
+console.log(curSerie)
+console.log(curEp)
     if (!curSerie){ // stop playing
       let newPlayObj
       setStateKeyVal( "curPlay", newPlayObj)
@@ -98,6 +100,7 @@ console.log(curSerie)
           })
         }
       }
+      curSerie.mediaType="vid"
       // This serie has episodes
       let newPlayObj = {curSerie,curEp}
       if (curEp!=null){
@@ -113,6 +116,8 @@ console.log(curSerie)
           if (curSerie && curSerie.fileList && curSerie.fileList[value]!=null){
             newPlayObj.curEp=curSerie.fileList[value]
           }
+curSerie.mediaType
+console.log(newPlayObj)
 //            props.onStartPlay && props.onStartPlay(curSerie,curSerie.fileList[value])
           setStateKeyVal( "curPlay", newPlayObj)
         }).catch((err) => {

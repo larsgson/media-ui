@@ -12,7 +12,7 @@ import useBrowserData from '../hooks/useBrowserData'
 import useMediaPlayer from "../hooks/useMediaPlayer"
 
 const TileItem = (props) => {
-  const {item,infoTile,useIcon,epList,expanded} = props
+  const {item,infoTile,useIcon,epList,expanded,multiRow} = props
   const {width, height} = useBrowserData()
   const {curPlay} = useMediaPlayer()
   const [serieCurEp, setSerieCurEp] = useState(undefined)
@@ -87,7 +87,7 @@ const TileItem = (props) => {
         expandIcon={expanded ? <ExpandLessIcon/> : <ExpandMoreIcon/>}
         onClickClose={(e) => props.onClickClose(e)}
         onClickDownload={(e) => props.onClickDownload(e)}
-        onClickPlay={(e) => props.onClickPlay(e)}
+        onClickPlay={(e,ser) => props.onClickPlay(e,item,serieCurEp)}
         onClickEdit={(e) => props.onClickEdit(e)}
         onClickExpand={(e) => props.onClickExpand(e)}
       />
@@ -104,6 +104,7 @@ const TileItem = (props) => {
     && (<EpList
       epList={epList}
       multiRow
+      navButton
       onClick={(ev,ser,ep) => console.log(ep)}
       serie={item}
       isPaused={false}

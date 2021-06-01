@@ -237,7 +237,6 @@ console.log("handleSetPaused")
   }
 
   const handleLocationProgress = (loc) => {
-console.log(loc)
     storeLocPos(loc)
   }
 
@@ -359,13 +358,18 @@ console.log("handleFinishedPlaying")
   }
   if (videoFound){
     idStr = "footer-video"
+    const checkRegEx = /^.*(https:\/\/.*youtube.com\/embed\/.*?)" .*$/
+    const matches = curSerie.video.match(checkRegEx)
+    if ((matches!=null)&&(matches.length>0)) {
+      locPath = matches[1]
+    }
   } else if (epubFound || htmlFound) {
     idStr = "footer-epub"
   }
   const fullSizeFound = videoFound || readOutLoud || htmlFound || epubFound || pdfFound
   const position = epubFound ? 'absolute' : 'relative'
   const top = readOutLoud ? '40px' : '0px'
-  if (locURL.length>0) {
+  if (locPath.length>0) {
     return (
       <footer
         id={idStr}

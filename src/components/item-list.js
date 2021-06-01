@@ -243,7 +243,7 @@ console.log(inx)
           item={showItem}
           inx={showInfoInx}
           expanded={showAllEp}
-          infoTile={true}
+          infoTile
           useIcon={showUseIcon}
           epList={showEpList}
           onClick={(e) => handleClickItem(e,showInfoInx)}

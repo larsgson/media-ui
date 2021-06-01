@@ -1,9 +1,9 @@
 import React from 'react'
-import { withStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles'
 import PropTypes from 'prop-types'
 import ReactPlayer from 'react-player'
 
-const styles = theme => ({
+const useStyles = makeStyles(theme => ({
   playerWrapper: {
     position: 'relative',
     paddingTop: '56.25%'
@@ -13,7 +13,7 @@ const styles = theme => ({
     top: 0,
     left: 0,
   }
-});
+}));
 
 class VideoPlayer extends React.Component {
   constructor(props) {
@@ -110,4 +110,4 @@ VideoPlayer.propTypes = {
   theme: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(VideoPlayer);
+export default VideoPlayer;

@@ -14,7 +14,6 @@ import Divider from '@material-ui/core/Divider'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import { useTranslation } from 'react-i18next'
 import CBoxAppBar from './cbox-app-bar'
-import CboxMenuList from './cbox-menu-list'
 import CboxUserMenu from './cbox-user-menu'
 import { NavLangSelect, LanguageSelect } from './language-select'
 import { loadingStateValue } from '../utils/config-data'
@@ -26,7 +25,7 @@ import CboxBibleNavigation from './cbox-bible-navigation'
 const defaultBackgroundStyle = {
   height: 'auto',
   minHeight: '100%',
-  background: 'whitesmoke'
+  backgroundColor: 'whitesmoke'
 }
 
 // const versionStr = 'Version 2.20'
