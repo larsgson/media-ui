@@ -8,6 +8,7 @@ const useStyles = makeStyles(theme => ({
     height: props => props.height,
     width: props => props.width,
     marginTop: props => props.marginTop,
+    marginLeft: props => props.marginLeft,
     float: props => props.float,
   },
   filler: {
@@ -30,7 +31,7 @@ const ItemImage = (props) => {
         <img
           className={classes.imageRoot}
           src={useImage}
-          alt={item.title}
+          alt={item && item.title}
         />
         <div className={classes.filler}/>
       </div>

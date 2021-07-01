@@ -4,7 +4,7 @@ import ExpandLessIcon from '@material-ui/icons/ExpandLess'
 import EpList from './ep-list'
 import ItemImage from './item-image'
 import ItemBar from './item-bar'
-import InfoTileItem from './info-tile-item'
+import InfoTileItemInclChildren from './info-tile-item-incl-children'
 import { menuList } from './cbox-menu-list'
 import { getImgOfObj } from '../utils/obj-functions'
 import { apiObjGetStorage } from '../utils/api'
@@ -12,10 +12,10 @@ import useBrowserData from '../hooks/useBrowserData'
 import useMediaPlayer from "../hooks/useMediaPlayer"
 
 const TileItem = (props) => {
-  const {item,infoTile,useIcon,epList,expanded,multiRow} = props
+  const {item,curEp,infoTile,useIcon,epList,expanded,multiRow} = props
   const {width, height} = useBrowserData()
   const {curPlay} = useMediaPlayer()
-  const [serieCurEp, setSerieCurEp] = useState(undefined)
+  const [serieCurEp, setSerieCurEp] = useState(curEp)
   const [percentVal, setPercentVal] = useState(undefined)
   const [nbrOfEp,setNbrOfEp] = useState(undefined)
   const [curEpInx,setCurEpInx] = useState(undefined)
@@ -51,7 +51,7 @@ const TileItem = (props) => {
             setNbrOfEp(item.fileList.length)
           }
         }
-        let tmpEp = undefined
+        let tmpEp = curEp
         apiObjGetStorage({curSerie: item},"curEp").then((value) => {
           if (!didCancel) {
             if ((item!=null) && (item.fileList!=null)
@@ -68,7 +68,7 @@ const TileItem = (props) => {
     return () => {
       didCancel = true
     }
-  }, [item,curPlay])
+  }, [item,curEp,curPlay])
   return (
   <div onClick={(e) => (!infoTile) && props.onClick(e)}>
     {!infoTile && (
@@ -81,7 +81,7 @@ const TileItem = (props) => {
       />
     )}
     {infoTile ? (
-      <InfoTileItem
+      <InfoTileItemInclChildren
         item={item}
         curEp={serieCurEp}
         expandIcon={expanded ? <ExpandLessIcon/> : <ExpandMoreIcon/>}
@@ -105,7 +105,7 @@ const TileItem = (props) => {
       epList={epList}
       multiRow
       navButton
-      onClick={(ev,ser,ep) => console.log(ep)}
+      onClick={(ev,ser,ep) => props.onInfoClick(ser,ep)}
       serie={item}
       isPaused={false}
       useHeight={height}

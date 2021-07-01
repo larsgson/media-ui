@@ -11,7 +11,6 @@ import { menuList } from './cbox-menu-list'
 import { getImgOfObj } from '../utils/obj-functions'
 import { apiObjGetStorage } from '../utils/api'
 import useBrowserData from '../hooks/useBrowserData'
-import useMediaPlayer from "../hooks/useMediaPlayer"
 
 const useStyles = makeStyles(theme => ({
   headline: {
@@ -29,18 +28,18 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const TileItemMiniScrollChildren = (props) => {
-  const {useIcon,name,epList} = props
+  const {useIcon,serie,name,epList} = props
   const {width, height} = useBrowserData()
-  const {curPlay} = useMediaPlayer()
   const classes = useStyles()
   return (
-  <div onClick={(e) => (!infoTile) && props.onClick(e)}>
+  <div onClick={(e) => (!infoTile) && console.log(e)}>
     <Typography className={classes.areaHeadline} type="headline">{name}</Typography>
     {epList
     && (<EpList
+      serie={serie}
       epList={epList}
       multiRow={false}
-      onClick={(ev,ser,ep) => console.log(ep)}
+      onClick={(ev,ser,ep) => props.onClick(ev,ser,ep)}
       isPaused={false}
       useHeight={height}
       width={width}

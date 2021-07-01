@@ -7,17 +7,48 @@ import { getImgOfObj } from '../utils/obj-functions'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
+import Divider from '@material-ui/core/Divider'
 import Snackbar from '@material-ui/core/Snackbar'
 import ButtonBase from '@material-ui/core/ButtonBase'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import FeaturedPlayList from '@material-ui/icons/FeaturedPlayList'
+import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined'
 import Fab from '@material-ui/core/Fab'
 import IconButton from '@material-ui/core/IconButton'
 import AvPlay from '@material-ui/icons/PlayArrow'
 import AvPause from '@material-ui/icons/Pause'
 import ContentAddCircleOutline from '@material-ui/icons/AddCircleOutline'
+import EpList from './ep-list'
 
 const useStyles = makeStyles(theme => ({
+  areaHeadline: {
+    paddingTop: 20,
+    fontWeight: 600,
+    width: '100%',
+  },
+  headline: {
+    paddingTop: 10,
+    fontWeight: 300,
+    fontSize: '70%',
+  },
+  infoTileContent: {
+    position: 'relative',
+    width: '100%',
+  },
+  infoTileLeft: {
+    marginLeft: 10,
+  },
+  fabButtonInfo: {
+    margin: 0,
+    marginLeft: 10,
+    color: 'white',
+    backgroundColor: 'transparent',
+  },
+  buttonInfo: {
+    margin: 0,
+    marginLeft: 10,
+    color: '#555',
+  },
   imageWrapper: {
     position: 'relative',
   },
@@ -131,16 +162,6 @@ const useStyles = makeStyles(theme => ({
     paddingTop: 15,
     color: 'lightgrey',
   },
-  headline: {
-    paddingTop: 15,
-    fontWeight: 600,
-    color: 'rgba(255, 255, 255, 0.87)',
-  },
-  areaHeadline: {
-    paddingLeft: 10,
-    fontWeight: 600,
-    color: 'rgba(255, 255, 255, 0.87)',
-  },
   areaDiv: {
     width: '100%',
   },
@@ -191,17 +212,17 @@ const useStyles = makeStyles(theme => ({
 
 const PlayButton = ({classes, onClick}) => (
   <IconButton className={classes.playPause}>
-    <AvPlay onClick={onClick}/>
+    <AvPlay onClick={(ev) => onClick(ev)}/>
   </IconButton>
 )
 
 const PauseButton = ({classes, onClick}) => (
   <IconButton className={classes.playPause}>
-    <AvPause onClick={onClick}/>
+    <AvPause onClick={(ev) => onClick(ev)}/>
   </IconButton>
 )
 
-const ShowPage = ({serie, curEp, onClick}) => {
+const ShowPage = ({serie, curEp, epList, onClick, onMoreClick, onInfoClick}) => {
   const classes = useStyles()
   const {size, width, height} = useBrowserData()
   const player = useMediaPlayer()
@@ -213,28 +234,34 @@ const ShowPage = ({serie, curEp, onClick}) => {
   const title = serTitle + epTitle
 //  const isCurPlaying = player.isPaused(curEp)
   const isCurPlaying = player.isPaused
-  const handleClick = () => {
-console.log("pageClick")
+  const handleClick = (ev) => {
     player.startPlay(serie,curEp)
-    onClick && onClick()
+    onClick && onClick(ev)
   }
-  let playStateIcon = <PauseButton classes={classes} onClick={handleClick}/>
+  const handleInfoClick = (ev) => {
+    ev.stopPropagation()
+console.log("infoClick")
+    onMoreClick && onMoreClick()
+  }
+  let playStateIcon = <PauseButton classes={classes} onClick={(ev) => handleClick(ev)}/>
   if (!isCurPlaying) {
-    playStateIcon = <PlayButton classes={classes} onClick={handleClick}/>
+    playStateIcon = <PlayButton classes={classes} onClick={(ev) => handleClick(ev)}/>
   } else if (player.isPaused) {
-    playStateIcon = <PlayButton classes={classes} onClick={handleClick}/>
+    playStateIcon = <PlayButton classes={classes} onClick={(ev) => handleClick(ev)}/>
 /*
   } else if (isVideoPlaying) {
     const tempHeight = (Math.trunc((width)*9/16))
     hideNavigation = height -tempHeight < 150 // hide if less than margin
 */
   }
+  const fullCoverSize = (width > height * 1.3)
   return (
+    <div>
       <ButtonBase
         focusRipple
         className={classes.image}
         focusVisibleClassName={classes.focusVisible}
-        onClick={handleClick}
+        onClick={(ev) => handleClick(ev)}
         style={{
           width: "100%",
           height: useHeight,
@@ -257,9 +284,35 @@ console.log("pageClick")
           >
             {title}
             <span className={classes.imageMarked} />
+            {fullCoverSize && (<span
+              className={classes.fabButtonInfo}
+              onClick={(ev) => handleInfoClick(ev)}><InfoOutlinedIcon/></span>)}
           </Typography>
         </span>
       </ButtonBase>
+      {!fullCoverSize && (<div className={classes.infoTileContent}>
+        <div className={classes.infoTileLeft}>
+          <Typography className={classes.areaHeadline} type="headline">
+            {title}
+            </Typography>
+          <Typography className={classes.headline} type="headline">
+            {curEp.introtext}
+            {curEp.fulltext}
+          </Typography>
+        </div>
+      </div>)}
+      {!fullCoverSize
+      && (<EpList
+        epList={epList}
+        multiRow
+        navButton
+        onClick={(ev,ser,ep) => props.onInfoClick(ser,ep)}
+        serie={serie}
+        isPaused={false}
+        useHeight={height}
+        width={width}
+        imgSrc={getImgOfObj(serie)}/>)}
+    </div>
   )
 }
 

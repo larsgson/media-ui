@@ -58,7 +58,7 @@ const getEpItem = (inx,epId) => {
       fullDescr: descr,
       hits,
       image,
-      fullText: wh_n_items[epId].fullText,
+      fulltext: stripHtml(wh_n_items[epId].fulltext),
       introtext: stripHtml(wh_n_items[epId].introtext),
       video: wh_n_items[epId].video
     }
@@ -71,7 +71,7 @@ const getEpItem = (inx,epId) => {
       fullDescr: "fullDescr",
       hits: 0,
       topicId: 1,
-      fullText: "fullText"
+      fulltext: "fulltext"
     }
   }
 }
@@ -106,7 +106,7 @@ const compiledSerieList = (lang,tag,curEp) => {
     image,
     topicId: tag,
     epId: curEp,
-    fullText: wh_n_items[curEp].fullText,
+    fulltext: stripHtml(wh_n_items[curEp].fulltext),
     introtext: stripHtml(wh_n_items[curEp].introtext),
     video: wh_n_items[curEp].video
   }
@@ -133,7 +133,7 @@ const getFirstEpItem = (lang,tag) => {
         descr: "descr",
         fullDescr: "fullDescr",
         hits: 0,
-        fullText: "fullText"
+        fulltext: "fulltext"
       }
     }
   }
@@ -169,7 +169,7 @@ const getAreaList = (area) => {
         epId: checkItem.epId,
         filename: checkItem.filename,
         image: checkItem.image,
-        fullText: checkItem.fullText,
+        fulltext: stripHtml(checkItem.fulltext),
         introtext: stripHtml(checkItem.introtext),
         video: checkItem.video
       })

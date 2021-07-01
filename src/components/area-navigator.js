@@ -2,7 +2,6 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import useBrowserData from '../hooks/useBrowserData'
 import useLibrary from '../hooks/useLibrary'
-import useMediaPlayer from '../hooks/useMediaPlayer'
 import Card from '@material-ui/core/Card'
 import TileItemMiniScrollChildren from './tile-item-mini-scroll-children'
 
@@ -33,12 +32,13 @@ const AreaNavigator = ({onClick}) => {
           : <TileItemMiniScrollChildren
               key={i}
               name={aName}
+              serie={aInfo}
               infoTile
               expanded
               multiRow={false}
               curEp={areaList[0]}
               epList={areaList}
-              onClick={(ev,ser) => onClick(ev,ser)}/>
+              onClick={(ev,ser,ep) => onClick(ev,ser,ep)}/>
       })}
     </Card>
   )

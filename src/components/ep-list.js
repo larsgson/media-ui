@@ -88,7 +88,6 @@ const useStyles = makeStyles(theme => ({
   image: {
     left: '50%',
     top: 0,
-    width: 'auto',
     height: '100%',
     transform: 'translateX(-50%)',
     maxHeight: 200,
@@ -129,8 +128,8 @@ const EpList = (props) => {
   const { startPlay } = useMediaPlayer()
   const classes = useStyles()
   let tmpPlaySer = undefined
-  const sizeToCol = {"xl": 5, "lg": 4, "md": 3}
-  let colSize = sizeToCol[size] || 2
+  const sizeToCol = {"xl": 5, "lg": 4, "md": 3, "sm": 2}
+  let colSize = sizeToCol[size] || 1
   let curHeight = height-150
   if (width<=380){
     colSize = 1
@@ -150,10 +149,13 @@ const EpList = (props) => {
     setExpanded(!expanded)
   }
   const handleClickItemIndex = (ev,item,ep) => {
+/*
     ev.stopPropagation()
     if (startPlay!=null) {
-      startPlay(0,item,ep)
+      startPlay(item,ep)
     }
+*/
+    props.onClick && props.onClick(ev,item,ep)
   }
   return (
     <CardContent className={(showMulti && !navButton) ? classes.cardContentMulti : classes.cardContentSingleLine} >
@@ -174,6 +176,8 @@ const EpList = (props) => {
           return (
             <GridListTile
               key={inx}
+              cols={1}
+              rows={1}
               className={(width>=480) ? tileRootClass : tileRootClassSmall}
               onClick={(ev) => handleClickItemIndex(ev,serie,ep)}
             >
